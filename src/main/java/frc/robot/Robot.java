@@ -86,6 +86,10 @@ public class Robot extends TimedRobot {
     middle_motor.restoreFactoryDefaults();
     btmL_motor.restoreFactoryDefaults();
     uprL_motor.restoreFactoryDefaults();
+    fl_motor.setClosedLoopRampRate(0.5);
+    fr_motor.setClosedLoopRampRate(0.5);
+    bl_motor.setClosedLoopRampRate(0.5);
+    br_motor.setClosedLoopRampRate(0.5);
 
     fl_motor.setInverted(true);
     fr_motor.setInverted(false);
