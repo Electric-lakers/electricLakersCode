@@ -24,11 +24,11 @@ public class RobotContainer {
     public final static XboxController Operator = new XboxController(1); //Operator defined as XboxController with port 1
     public final static double leftJoystickX = Driver.getRawAxis(XboxController.Axis.kLeftX.value);
     public final static double leftJoystickY = Driver.getRawAxis(XboxController.Axis.kLeftY.value);
-        public final static double rightJoystickX = Driver.getRawAxis(XboxController.Axis.kRightX.value);
+    public final static double rightJoystickX = Driver.getRawAxis(XboxController.Axis.kRightX.value);
 
 
         //Operator Buttons
-        public final JoystickButton topIntake = new JoystickButton(Operator, XboxController.Button.kA.value);
+    public final JoystickButton topIntake = new JoystickButton(Operator, XboxController.Button.kA.value);
         /*Subsystems */
     public final MecanumDriveSubsystem m_driveSubsystem = new MecanumDriveSubsystem();
     public final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
@@ -69,5 +69,6 @@ m_intakeSubsystem.setDefaultCommand(
         m_shooterSubsystem
     )
 );
+topIntake.whileTrue(new ShootCommand(.3, m_shooterSubsystem));
 }
 }
