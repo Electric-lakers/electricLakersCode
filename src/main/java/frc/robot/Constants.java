@@ -24,4 +24,8 @@ public final class Constants {
     public static final int Grab2_ID = 6;
     public static final int Lift_ID = 7;
   }
+  public static final class ShooterIds{
+    public static final int BottemShooter_ID = 8;
+    public static final int TopShooter_ID = 9;
+  }
 }
