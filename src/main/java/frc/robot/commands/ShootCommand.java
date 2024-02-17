@@ -22,13 +22,13 @@ public class ShootCommand extends Command
     @Override
     public void execute() 
     {
-        m_shooter.setShooter(m_speed);
+        m_shooter.ShootCommand(m_speed);
     }
 
     @Override
     public void end(boolean interrupted) 
     {
-        m_shooter.setShooter(0.0);
+        m_shooter.ShootCommand(0.0);
     }
     
     @Override

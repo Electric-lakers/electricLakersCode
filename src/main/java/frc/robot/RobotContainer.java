@@ -11,15 +11,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.MecanumDriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-import java.sql.Driver;
-
-import org.ejml.dense.block.MatrixOps_DDRB;
-
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.ShootCommand;
+import frc.robot.commands.intakeCommand;
 
 public class RobotContainer {
   
@@ -34,9 +30,9 @@ public class RobotContainer {
         //Operator Buttons
         public final JoystickButton topIntake = new JoystickButton(Operator, XboxController.Button.kA.value);
         /*Subsystems */
-    final MecanumDriveSubsystem m_driveSubsystem = new MecanumDriveSubsystem();
-    final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-    final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+    public final MecanumDriveSubsystem m_driveSubsystem = new MecanumDriveSubsystem();
+    public final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+    public final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
         public RobotContainer() {
 
             
@@ -45,13 +41,33 @@ public class RobotContainer {
     }               
      
 
-/*Commands */
-@SuppressWarnings("unused")
-private void configureBindings() {
-    m_driveSubsystem.driveCommand(leftJoystickX, leftJoystickY, rightJoystickX);
-    m_intakeSubsystem.setIntake(Operator.getRawAxis(XboxController.Axis.kRightTrigger.value));
-    m_shooterSubsystem.setShooter(Operator.getRawAxis(XboxController.Axis.kLeftTrigger.value));
+// Configure the button bindings
+public void configureBindings(){
 
-    
+// Set default commands
+m_driveSubsystem.setDefaultCommand(
+    new driveCommand(
+            Operator.getRawAxis(XboxController.Axis.kLeftY.value),
+            Operator.getRawAxis(XboxController.Axis.kLeftX.value),
+            Operator.getRawAxis(XboxController.Axis.kRightX.value),
+          m_driveSubsystem
+        ));
+
+
+
+m_intakeSubsystem.setDefaultCommand(
+    new intakeCommand(
+         Operator.getRawAxis(XboxController.Axis.kRightTrigger.value), 
+        m_intakeSubsystem
+        
+    )
+);
+
+((Subsystem) m_shooterSubsystem).setDefaultCommand(
+    new ShootCommand(
+         Operator.getRawAxis(XboxController.Axis.kLeftTrigger.value),
+        m_shooterSubsystem
+    )
+);
 }
 }

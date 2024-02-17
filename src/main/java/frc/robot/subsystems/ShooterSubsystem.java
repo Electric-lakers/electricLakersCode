@@ -12,7 +12,7 @@ public class ShooterSubsystem {
         UpperShooter.restoreFactoryDefaults();
     }
     
-    public void setShooter(double speed){
+    public void ShootCommand(double speed){
         bottemShooter.set(speed);
         UpperShooter.set(speed);
     }
