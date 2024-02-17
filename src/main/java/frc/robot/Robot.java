@@ -89,14 +89,13 @@ public class Robot extends TimedRobot {
     br_motor.setClosedLoopRampRate(Constants.motorLimits.rampRate);
 
     fl_motor.setInverted(true);
-    fr_motor.setInverted(false);
+    
     bl_motor.setInverted(true);
-    br_motor.setInverted(false);
+   
     grab1_motor.setInverted(true);
     grab2_motor.setInverted(true);
     middle_motor.setInverted(true);  
-    btmL_motor.setInverted(false);
-    uprL_motor.setInverted(false);
+    
     //robot_drive = new DifferentialDrive(bl_motor, br_motor);
     mecanum_drive = new MecanumDrive(fl_motor, bl_motor, fr_motor, br_motor);
   }
