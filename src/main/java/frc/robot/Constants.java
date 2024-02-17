@@ -1,24 +1,19 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot;
 
-public class Constants {
-    public static class motorIDs {
-        public static final int fl_deviceID = 1;
-        public static final int fr_deviceID = 2;
-        public static final int bl_deviceID = 3;
-        public static final int br_deviceID = 4;
-        public static final int btmL_deviceID = 6; //shooter motor
-        public static final int uprL_deviceID = 7; //shooter motor
-    }
-    public static class Joysticks {
-        public static final int driver = 0;
-        public static final int operator = 1;
-    }
-    public static class motorLimits{
-        public static final double rampRate = 0.5;
-    }
-    public static class Intake {
-        public static final int grab1_deviceID = 9;
-        public static final int grab2_deviceID = 8;
-        public static final int middle_deviceID = 5;
-    }
+/**
+ * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants should be declared
+ * globally (i.e. public static). Do not put anything functional in this class.
+ *
+ * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * constants are needed, to reduce verbosity.
+ */
+public final class Constants {
+  public static class OperatorConstants {
+    public static final int kDriverControllerPort = 0;
+  }
 }

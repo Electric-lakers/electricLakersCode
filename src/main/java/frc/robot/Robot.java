@@ -4,14 +4,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -20,85 +15,21 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private Command m_autonomousCommand;
 
-  
+  private RobotContainer m_robotContainer;
 
-  CANSparkMax fl_motor;
-  CANSparkMax fr_motor;
-  CANSparkMax bl_motor;
-  CANSparkMax br_motor;
-  CANSparkMax grab1_motor;
-  CANSparkMax grab2_motor;
-  CANSparkMax middle_motor;
-  CANSparkMax btmL_motor;
-  CANSparkMax uprL_motor;
-
-  /*private static final int fl_deviceID = 1;
-  private static final int fr_deviceID = 2;
-  private static final int bl_deviceID = 3;
-  private static final int br_deviceID = 4;
-  private static final int grab1_deviceID = 9;
-  private static final int grab2_deviceID = 8;
-  private static final int middle_deviceID = 5;
-  private static final int btmL_deviceID = 6; //shooter motor
-  private static final int uprL_deviceID = 7; //shooter motor*/
-
-  private MecanumDrive mecanum_drive;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
-
-    /*nd2_joystick = new Joystick(1);
-    
-    
-    main_joystick = new Joystick(0);
-    main_joystick.setXChannel(4);
-    main_joystick.setYChannel(1);
-    main_joystick.setTwistChannel(0);*/
-
-    fl_motor = new CANSparkMax(Constants.motorIDs.fl_deviceID, MotorType.kBrushless);
-    fr_motor = new CANSparkMax(Constants.motorIDs.fr_deviceID, MotorType.kBrushless);
-    bl_motor = new CANSparkMax(Constants.motorIDs.bl_deviceID, MotorType.kBrushless);
-    br_motor = new CANSparkMax(Constants.motorIDs.br_deviceID, MotorType.kBrushless);
-
-    btmL_motor = new CANSparkMax(Constants.motorIDs.btmL_deviceID, MotorType.kBrushless);
-    uprL_motor = new CANSparkMax(Constants.motorIDs.uprL_deviceID, MotorType.kBrushless);
-    
-    fl_motor.restoreFactoryDefaults();
-    fr_motor.restoreFactoryDefaults();
-    bl_motor.restoreFactoryDefaults();
-    br_motor.restoreFactoryDefaults();
-    grab1_motor.restoreFactoryDefaults();
-    grab2_motor.restoreFactoryDefaults();
-    middle_motor.restoreFactoryDefaults();
-    btmL_motor.restoreFactoryDefaults();
-    uprL_motor.restoreFactoryDefaults();
-    fl_motor.setClosedLoopRampRate(Constants.motorLimits.rampRate);
-    fr_motor.setClosedLoopRampRate(Constants.motorLimits.rampRate);
-    bl_motor.setClosedLoopRampRate(Constants.motorLimits.rampRate);
-    br_motor.setClosedLoopRampRate(Constants.motorLimits.rampRate);
-
-    fl_motor.setInverted(true);
-    
-    bl_motor.setInverted(true);
-   
-    grab1_motor.setInverted(true);
-    grab2_motor.setInverted(true);
-    middle_motor.setInverted(true);  
-    
-    //robot_drive = new DifferentialDrive(bl_motor, br_motor);
-    mecanum_drive = new MecanumDrive(fl_motor, bl_motor, fr_motor, br_motor);
+    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+    // autonomous chooser on the dashboard.
+    m_robotContainer = new RobotContainer();
   }
+
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
@@ -107,73 +38,56 @@ public class Robot extends TimedRobot {
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+    // commands, running already-scheduled commands, removing finished or interrupted commands,
+    // and running subsystem periodic() methods.  This must be called from the robot's periodic
+    // block in order for anything in the Command-based framework to work.
+    CommandScheduler.getInstance().run();
+  }
 
-  /**
-   * This autonomous (along with the chooser code above) shows how to select between different
-   * autonomous modes using the dashboard. The sendable chooser code works with the Java
-   * SmartDashboard. If you prefer the LabVIEW Dashboard, remove all of the chooser code and
-   * uncomment the getString line to get the auto name from the text box below the Gyro
-   *
-   * <p>You can add additional auto modes by adding additional comparisons to the switch structure
-   * below with additional strings. If using the SendableChooser make sure to add them to the
-   * chooser code above as well.
-   */
+  /** This function is called once each time the robot enters Disabled mode. */
+  @Override
+  public void disabledInit() {}
+
+  @Override
+  public void disabledPeriodic() {}
+
+  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    // schedule the autonomous command (example)
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
+    }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
+  public void autonomousPeriodic() {}
+
+  @Override
+  public void teleopInit() {
+    // This makes sure that the autonomous stops running when
+    // teleop starts running. If you want the autonomous to
+    // continue until interrupted by another command, remove
+    // this line or comment it out.
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
     }
   }
 
-  /** This function is called once when teleop is enabled. */
-  @Override
-  public void teleopInit() {}
-
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    /*double leftTrigger = Constants.Joysticks.driver;
-    double right_trigger = nd2_joystick.getRawAxis(3);*/
+  public void teleopPeriodic() {}
 
-   /*  grab1_motor.set(leftTrigger);
-    grab2_motor.set(leftTrigger);
-    middle_motor.set(leftTrigger);
-    btmL_motor.set(right_trigger);
-    uprL_motor.set(right_trigger);*/
-
-    //test
-    //robot_drive.tankDrive(main_joystick.getY(), main_joystick.getY());
-    double x = Constants.Joysticks.driver().getLeftX();
-    double y = main_joystick.getY();
-    double rotate = main_joystick.getTwist();
-    mecanum_drive.driveCartesian(y, -x, -rotate);
+  @Override
+  public void testInit() {
+    // Cancels all running commands at the start of test mode.
+    CommandScheduler.getInstance().cancelAll();
   }
-  /** This function is called once when the robot is disabled. */
-  @Override
-  public void disabledInit() {}
-
-  /** This function is called periodically when disabled. */
-  @Override
-  public void disabledPeriodic() {}
-
-  /** This function is called once when test mode is enabled. */
-  @Override
-  public void testInit() {}
 
   /** This function is called periodically during test mode. */
   @Override
