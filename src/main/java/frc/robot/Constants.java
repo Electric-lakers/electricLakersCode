@@ -19,4 +19,9 @@ public final class Constants {
     public static final int RL_ID = 3;
     public static final int RR_ID = 4;
   }
+  public static final class IntakeIds{
+    public static final int Grab1_ID = 5;
+    public static final int Grab2_ID = 6;
+    public static final int Lift_ID = 7;
+  }
 }

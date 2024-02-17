@@ -7,6 +7,7 @@ package frc.robot;
 
 
 import frc.robot.commands.driveCommand;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.MecanumDriveSubsystem;
 
 import java.sql.Driver;
@@ -29,16 +30,16 @@ public class RobotContainer {
 
 public RobotContainer() {
 
-   
-    
 }
                     
  /*Subsystems */
 final MecanumDriveSubsystem m_driveSubsystem = new MecanumDriveSubsystem();
+final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
 /*Commands */
+@SuppressWarnings("unused")
 private void configureBindings() {
-    m_driveSubsystem.driveCommand(leftJoystickX, leftJoystickY, rightJoystickX); 
-
+    m_driveSubsystem.driveCommand(leftJoystickX, leftJoystickY, rightJoystickX);
+    m_intakeSubsystem.setIntake(XboxController.Axis.kRightTrigger.value);
 }
 }
