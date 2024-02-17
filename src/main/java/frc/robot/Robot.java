@@ -25,8 +25,7 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  Joystick main_joystick;
-  Joystick nd2_joystick;
+  
 
   CANSparkMax fl_motor;
   CANSparkMax fr_motor;
@@ -38,7 +37,7 @@ public class Robot extends TimedRobot {
   CANSparkMax btmL_motor;
   CANSparkMax uprL_motor;
 
-  private static final int fl_deviceID = 1;
+  /*private static final int fl_deviceID = 1;
   private static final int fr_deviceID = 2;
   private static final int bl_deviceID = 3;
   private static final int br_deviceID = 4;
@@ -46,7 +45,7 @@ public class Robot extends TimedRobot {
   private static final int grab2_deviceID = 8;
   private static final int middle_deviceID = 5;
   private static final int btmL_deviceID = 6; //shooter motor
-  private static final int uprL_deviceID = 7; //shooter motor
+  private static final int uprL_deviceID = 7; //shooter motor*/
 
   private MecanumDrive mecanum_drive;
   /**
@@ -59,23 +58,21 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    nd2_joystick = new Joystick(1);
+    /*nd2_joystick = new Joystick(1);
     
     
     main_joystick = new Joystick(0);
     main_joystick.setXChannel(4);
     main_joystick.setYChannel(1);
-    main_joystick.setTwistChannel(0);
+    main_joystick.setTwistChannel(0);*/
 
-    fl_motor = new CANSparkMax(fl_deviceID, MotorType.kBrushless);
-    fr_motor = new CANSparkMax(fr_deviceID, MotorType.kBrushless);
-    bl_motor = new CANSparkMax(bl_deviceID, MotorType.kBrushless);
-    br_motor = new CANSparkMax(br_deviceID, MotorType.kBrushless);
-    grab1_motor = new CANSparkMax(grab1_deviceID, MotorType.kBrushless);
-    grab2_motor = new CANSparkMax(grab2_deviceID, MotorType.kBrushless);
-    middle_motor = new CANSparkMax(middle_deviceID, MotorType.kBrushless);
-    btmL_motor = new CANSparkMax(btmL_deviceID, MotorType.kBrushless);
-    uprL_motor = new CANSparkMax(uprL_deviceID, MotorType.kBrushless);
+    fl_motor = new CANSparkMax(Constants.motorIDs.fl_deviceID, MotorType.kBrushless);
+    fr_motor = new CANSparkMax(Constants.motorIDs.fr_deviceID, MotorType.kBrushless);
+    bl_motor = new CANSparkMax(Constants.motorIDs.bl_deviceID, MotorType.kBrushless);
+    br_motor = new CANSparkMax(Constants.motorIDs.br_deviceID, MotorType.kBrushless);
+
+    btmL_motor = new CANSparkMax(Constants.motorIDs.btmL_deviceID, MotorType.kBrushless);
+    uprL_motor = new CANSparkMax(Constants.motorIDs.uprL_deviceID, MotorType.kBrushless);
     
     fl_motor.restoreFactoryDefaults();
     fr_motor.restoreFactoryDefaults();
@@ -86,10 +83,10 @@ public class Robot extends TimedRobot {
     middle_motor.restoreFactoryDefaults();
     btmL_motor.restoreFactoryDefaults();
     uprL_motor.restoreFactoryDefaults();
-    fl_motor.setClosedLoopRampRate(0.5);
-    fr_motor.setClosedLoopRampRate(0.5);
-    bl_motor.setClosedLoopRampRate(0.5);
-    br_motor.setClosedLoopRampRate(0.5);
+    fl_motor.setClosedLoopRampRate(Constants.motorLimits.rampRate);
+    fr_motor.setClosedLoopRampRate(Constants.motorLimits.rampRate);
+    bl_motor.setClosedLoopRampRate(Constants.motorLimits.rampRate);
+    br_motor.setClosedLoopRampRate(Constants.motorLimits.rampRate);
 
     fl_motor.setInverted(true);
     fr_motor.setInverted(false);
@@ -151,22 +148,20 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    double leftTrigger = nd2_joystick.getRawAxis(2);
-    double right_trigger =  nd2_joystick.getRawAxis(3);
+    /*double leftTrigger = Constants.Joysticks.driver;
+    double right_trigger = nd2_joystick.getRawAxis(3);*/
 
-    grab1_motor.set(leftTrigger);
+   /*  grab1_motor.set(leftTrigger);
     grab2_motor.set(leftTrigger);
     middle_motor.set(leftTrigger);
     btmL_motor.set(right_trigger);
-    uprL_motor.set(right_trigger);
+    uprL_motor.set(right_trigger);*/
 
-
-//test
+    //test
     //robot_drive.tankDrive(main_joystick.getY(), main_joystick.getY());
-    double x = main_joystick.getX();
+    double x = Constants.Joysticks.driver().getLeftX();
     double y = main_joystick.getY();
     double rotate = main_joystick.getTwist();
-
     mecanum_drive.driveCartesian(y, -x, -rotate);
   }
   /** This function is called once when the robot is disabled. */
